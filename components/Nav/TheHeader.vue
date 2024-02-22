@@ -57,7 +57,7 @@
         [{ id: 3, name: 'Orders', href: '/order', icon: 'i-heroicons-rss-20-solid' }],
         [{ id: 4, name: 'Minder', href: '/minder', icon: 'i-heroicons-rocket-launch-20-solid' }],
         [{ id: 5, name: 'Tasker', href: '/task', icon: 'i-heroicons-queue-list' }],
-        [{ id: 6, name: 'Справочники', href: '/refs', icon: 'i-heroicons-pencil-square' }],
+        [{ id: 6, name: 'Refs', href: '/refs', icon: 'i-heroicons-pencil-square' }],
     ];
     const colorMode = useColorMode()
     const isDark = computed({

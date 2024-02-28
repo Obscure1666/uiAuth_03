@@ -7,8 +7,8 @@ export const AppDataSource = new DataSource({
     type: "mssql",
     host: "localhost",
     port: 1433,
-    username: "sa-sql",
-    password: "sa-sql",
+    username: "***",
+    password: "***",
     database: "TEMP_DB",
     extra: {
         trustServerCertificate: true,

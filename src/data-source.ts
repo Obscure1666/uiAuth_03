@@ -7,9 +7,9 @@ export const AppDataSource = new DataSource({
     type: "mssql",
     host: "localhost",
     port: 1433,
-    username: "***",
-    password: "***",
-    database: "TEMP_DB",
+    username: process.env.SQL_USER,
+    password: process.env.SQL_PASSWORD,
+    database: process.env.SQL_DATABASE,
     extra: {
         trustServerCertificate: true,
         instanceof: "SQLEXPRESS"

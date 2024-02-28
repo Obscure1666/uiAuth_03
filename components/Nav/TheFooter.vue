@@ -1,7 +1,7 @@
 <template>
     <div class="fixed bottom-5 right-5 flex items-center space-x-4">
         <a href="https://nuxt.com" target="_blank" class="transition-transform transform hover:scale-125">
-            <span class="sr-only">Twitter</span>
+            <span class="sr-only">Powered By Nuxt 3</span>
             <svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 width="24" 

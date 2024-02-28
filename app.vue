@@ -5,3 +5,7 @@
   </div>
   <NavTheFooter />
 </template>
+
+<script setup>
+
+</script>

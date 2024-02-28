@@ -35,14 +35,36 @@
         <div class="basis-1/5">
             <div class="flex justify-end">
                 <div class="flex items-center">
-                    <UAvatar class="mx-2" src="https://avatars.githubusercontent.com/u/112487718?u=f2231edaa03d44032d4d9e854984c72cce6df5f1&v=4" alt="Avatar"  />
-                    <UButton
+                    <UDropdown 
+                        :items="avatarMenu"
+                        :ui="{ item: { disabled: 'cursor-text select-text' } }" :popper="{ placement: 'bottom-start' }"
+                    >
+                        <UAvatar class="mx-2" :src="data?.user?.image" alt="Avatar" />
+                        <template #account="{ item }">
+                            <div class="text-left">
+                                <p>
+                                {{ status === 'authenticated' ? 'Зарегистрирован как: ' : 'Зарегистрируйтесь...' }}
+                                </p>
+                                <p class="truncate font-medium text-gray-900 dark:text-white">
+                                {{ item.label }}
+                                </p>
+                            </div>
+                        </template>
+
+                        <template #item="{ item }">
+                            <span class="truncate">{{ item.label }}</span>
+                            <UIcon :name="item.icon" class="flex-shrink-0 h-4 w-4 text-gray-400 dark:text-gray-500 ms-auto" />                            
+                        </template>
+                        
+                    </UDropdown>                       
+                    
+                    <!-- <UButton
                         :icon="isDark ? 'i-heroicons-moon-20-solid' : 'i-heroicons-sun-20-solid'" 
                         @click="isDark = !isDark" 
                         color="gray"
                         variant="ghost"
                         aria-label="Theme"                
-                    />
+                    /> -->
                 </div>
             </div>
         </div>
@@ -50,15 +72,10 @@
     
 </template>
 
-<script setup>
-    const mainMenu = [
-        [{ id: 1, name: 'Home', href: '/', icon: 'i-heroicons-home-20-solid' }],
-        [{ id: 2, name: 'Loads', href: '/loads', icon: 'i-heroicons-chart-bar-20-solid' }],
-        [{ id: 3, name: 'Orders', href: '/order', icon: 'i-heroicons-rss-20-solid' }],
-        [{ id: 4, name: 'Minder', href: '/minder', icon: 'i-heroicons-rocket-launch-20-solid' }],
-        [{ id: 5, name: 'Tasker', href: '/task', icon: 'i-heroicons-queue-list' }],
-        [{ id: 6, name: 'Refs', href: '/refs', icon: 'i-heroicons-pencil-square' }],
-    ];
+<script setup lang="ts">
+    const { status, data, signIn, signOut } = useAuth();
+    const loggedName = data.value?.user?.email;
+
     const colorMode = useColorMode()
     const isDark = computed({
         get () {
@@ -68,4 +85,80 @@
             colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
         }
     })
+
+    const darkClick = (item:any) => {
+        if (item) {
+            isDark.value = false
+        } else {
+            isDark.value = true
+        }
+    };
+
+    const mainMenu = [
+        [{ id: 1, name: 'Home', href: '/', icon: 'i-heroicons-home-20-solid' }],
+        [{ id: 2, name: 'Loads', href: '/loads', icon: 'i-heroicons-chart-bar-20-solid' }],
+        [{ id: 3, name: 'Orders', href: '/order', icon: 'i-heroicons-rss-20-solid' }],
+        [{ id: 4, name: 'Minder', href: '/minder', icon: 'i-heroicons-rocket-launch-20-solid' }],
+        [{ id: 5, name: 'Tasker', href: '/task', icon: 'i-heroicons-queue-list' }],
+        [{ id: 6, name: 'Reference', href: '/refs', icon: 'i-heroicons-pencil-square' }],
+    ];
+
+    // avatarMenu = loginInfoBlock + settingBlock_(Setting+Theme) + docsBlock_(Docs+changeLog+Status) + signBlock
+    const loginInfoBlock = [
+        [{
+            label: loggedName,
+            slot: 'account',
+            disabled: true
+        }]
+    ];
+
+    const settingBlock = [
+        [{
+            label: 'Настройки',
+            icon: 'i-heroicons-cog-8-tooth'
+        }, {
+            label: 'Изменить тему',
+            icon: 'i-heroicons-sun-20-solid',
+            click: () => { darkClick(isDark) }
+        }
+
+    ]];
+
+    const docsBlock = [
+        [{
+                label: 'Документация',
+                icon: 'i-heroicons-book-open'
+            }, {
+                label: 'Изменения',
+                icon: 'i-heroicons-megaphone'
+            }, {
+                label: 'Статус',
+                icon: 'i-heroicons-signal'
+        }]
+    ];
+
+    const signOutMenu = [
+        [{
+            label: 'Выйти',
+            icon: 'i-heroicons-arrow-right-on-rectangle',
+            click: () => { signOutDrop('') }
+        }]
+    ];
+    const signInMenu = [
+        [{
+            label: 'Войти',
+            icon: 'i-heroicons-arrow-left-on-rectangle',
+            click: () => { signInDrop('') }
+        }]
+    ];
+    const signBlock = status.value == 'authenticated' ? signOutMenu : signInMenu;
+
+    const avatarMenu = [...loginInfoBlock, ...signBlock, [], ...settingBlock, ...docsBlock]
+
+    const signOutDrop = (item:any) => {
+        signOut()
+    }
+    const signInDrop = (item:any) => {
+        window.location.href = '/auth/login'
+    }
 </script>

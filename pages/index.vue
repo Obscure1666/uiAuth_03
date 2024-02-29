@@ -1,19 +1,19 @@
 <template>
-    <!-- <UButton @click="signIn('credentials', { callbackUrl: '/', username: 'jsmith', password: 'hunter2' })">SIGN</UButton>
-    <UButton @click="signIn('github', { callbackUrl: '/' })">github</UButton> -->
-    <!-- <UButton @click="signIn('yandex', { callbackUrl: '/' })">Yandex</UButton> -->
-    <div>{{ status }}</div>
-    <!-- <UButton @click="signOut">LogOut</UButton> -->
-  
     INDEX VUE
-    <!-- <NuxtLink to="/login">login comp</NuxtLink> -->
     <div>
-        {{ data }}
+        <pre v-if="status"><span>Status:</span> {{ status }}</pre>
+        <pre v-if="data"><span>Data:</span> {{ data }}</pre>
+        <pre v-if="csrfToken"><span>CSRF Token:</span> {{ csrfToken }}</pre>
+        <pre v-if="providers"><span>Providers:</span> {{ providers }}</pre>
+        <!-- <pre v-if="session"><span>Session:</span> {{ session }}</pre> -->
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
     definePageMeta({ auth: false })
-    const { status, data, signIn, signOut } = useAuth();
-
+    const { status, data, getCsrfToken, getProviders, getSession, signIn, signOut, } = useAuth();
+    const providers = await getProviders()
+    const csrfToken = await getCsrfToken()
+    // const session = await getSession()
+    
 </script>

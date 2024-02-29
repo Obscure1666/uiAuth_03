@@ -41,4 +41,10 @@ export class userAuth {
 
     @Column({ type: "nvarchar", length: 250, nullable: true })
     image: string
+
+    @Column({ type: "nvarchar", length: 250, nullable: true })
+    accessToken: string
+
+    @Column({ type: "nvarchar", length: 50, nullable: true })
+    role: string
 }

@@ -49,8 +49,8 @@
                                 {{ item.label }}
                                 </p>
                             </div>
-                        </template>
-
+                        </template>                       
+                        
                         <template #item="{ item }">
                             <span class="truncate">{{ item.label }}</span>
                             <UIcon :name="item.icon" class="flex-shrink-0 h-4 w-4 text-gray-400 dark:text-gray-500 ms-auto" />                            
@@ -74,8 +74,10 @@
 
 <script setup lang="ts">
     const { status, data, signIn, signOut } = useAuth();
-    const loggedName = data.value?.user?.email;
-
+    
+    const loggedName = data.value?.user?.email;    
+    const isAdmin = (computed(() => status.value == 'authenticated'? (data.value.role == "admin" ? false : true) : true)).value;
+    
     const colorMode = useColorMode()
     const isDark = computed({
         get () {
@@ -84,7 +86,7 @@
         set () {
             colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
         }
-    })
+    });
 
     const darkClick = (item:any) => {
         if (item) {
@@ -114,8 +116,10 @@
 
     const settingBlock = [
         [{
-            label: 'Настройки',
-            icon: 'i-heroicons-cog-8-tooth'
+            label: 'Настройки',            
+            icon: 'i-heroicons-cog-8-tooth',            
+            click: () => { window.location.href = '/protected/setting' },
+            disabled: isAdmin,
         }, {
             label: 'Изменить тему',
             icon: 'i-heroicons-sun-20-solid',

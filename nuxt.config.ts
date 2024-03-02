@@ -2,7 +2,8 @@
 export default defineNuxtConfig({
   modules: [
     '@nuxt/ui',
-    '@sidebase/nuxt-auth'
+    '@sidebase/nuxt-auth',
+    '@pinia/nuxt',
   ],
   auth: {
     globalAppMiddleware: true,

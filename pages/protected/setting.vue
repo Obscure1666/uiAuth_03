@@ -1,14 +1,11 @@
 <template>
     <div>        
-        isAdmin: {{ isAdmin }}
+        isAdmin: {{ userRole.isAdmin }}
     </div>
 </template>
 
-<script setup>
-    const { data } = useAuth();
-    
-    const isAdmin = computed(() => data.value.role === "admin" ? true : false)
-    
-    
+<script setup>    
+    const userRole = userRoleStore();    
+    // if (userRole.isAdmin == false) { await navigateTo('/needadmin') }
     
 </script>

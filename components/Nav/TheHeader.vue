@@ -118,8 +118,8 @@
         [{
             label: 'Настройки',            
             icon: 'i-heroicons-cog-8-tooth',            
-            click: () => { window.location.href = '/protected/setting' },
-            disabled: isAdmin,
+            click: () => { navigateTo('/protected/setting') },
+            // disabled: isAdmin,
         }, {
             label: 'Изменить тему',
             icon: 'i-heroicons-sun-20-solid',
@@ -163,6 +163,6 @@
         signOut()
     }
     const signInDrop = (item:any) => {
-        window.location.href = '/auth/login'
+        navigateTo('/auth/login')
     }
 </script>

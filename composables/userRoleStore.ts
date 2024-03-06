@@ -7,7 +7,7 @@ export const userRoleStore = defineStore('user-role',() => {
         return { isAdmin }
     } else {
         const isAdmin = (computed(() => false)).value
-        return {isAdmin}
+        return { isAdmin }
     }
     
 

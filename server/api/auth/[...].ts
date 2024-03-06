@@ -43,8 +43,8 @@ export default NuxtAuthHandler({
     CredentialsProvider.default({
       name: 'Credentials',
       credentials: {
-        username: { label: 'Username', type: 'text', placeholder: '(hint: jsmith)' },
-        password: { label: 'Password', type: 'password', placeholder: '(hint: hunter2)' }
+        // username: { label: 'Username', type: 'text', placeholder: '(hint: jsmith)' },
+        // password: { label: 'Password', type: 'password', placeholder: '(hint: hunter2)' }
       },
       async authorize (credentials: any) {
         const userRepository = AppDataSource.getRepository(userAuth);
@@ -64,7 +64,16 @@ export default NuxtAuthHandler({
             statusMessage: 'Invalid Credentials'
           })
         } else {
-          return authUser          
+          if (credentials.is_active = true) {
+            await AppDataSource.createQueryBuilder().update(userAuth).set({ last_login: Date() }).where("username = :username", { username: credentials.username }).execute();          
+            return authUser          
+          } else {
+            console.log('inactive user')
+            throw createError({
+              statusCode: 401,
+              statusMessage: 'User is Inactive'
+            })
+          }          
         }
       }
     })

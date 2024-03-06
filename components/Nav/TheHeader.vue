@@ -77,7 +77,8 @@
     
     const loggedName = data.value?.user?.email;    
     const isAdmin = (computed(() => status.value == 'authenticated'? (data.value.role == "admin" ? false : true) : true)).value;
-    
+    const logged = computed(() => status.value == 'authenticated'? false : true).value
+
     const colorMode = useColorMode()
     const isDark = computed({
         get () {
@@ -98,11 +99,11 @@
 
     const mainMenu = [
         [{ id: 1, name: 'Home', href: '/', icon: 'i-heroicons-home-20-solid' }],
-        [{ id: 2, name: 'Loads', href: '/loads', icon: 'i-heroicons-chart-bar-20-solid' }],
-        [{ id: 3, name: 'Orders', href: '/order', icon: 'i-heroicons-rss-20-solid' }],
+        [{ id: 2, name: 'Loads', href: '/protected/loads/loads', icon: 'i-heroicons-chart-bar-20-solid' }],
+        [{ id: 3, name: 'Orders', href: '/protected/orders/orders', icon: 'i-heroicons-rss-20-solid' }],
         [{ id: 4, name: 'Minder', href: '/minder', icon: 'i-heroicons-rocket-launch-20-solid' }],
-        [{ id: 5, name: 'Tasker', href: '/task', icon: 'i-heroicons-queue-list' }],
-        [{ id: 6, name: 'Reference', href: '/refs', icon: 'i-heroicons-pencil-square' }],
+        [{ id: 5, name: 'Tasker', href: '/tasker', icon: 'i-heroicons-queue-list' }],
+        [{ id: 6, name: 'Reference', href: '/protected/refs/refs', icon: 'i-heroicons-pencil-square' }],
     ];
 
     // avatarMenu = loginInfoBlock + settingBlock_(Setting+Theme) + docsBlock_(Docs+changeLog+Status) + signBlock
@@ -119,11 +120,16 @@
             label: 'Настройки',            
             icon: 'i-heroicons-cog-8-tooth',            
             click: () => { navigateTo('/protected/setting') },
-            // disabled: isAdmin,
+            disabled: isAdmin,
         }, {
             label: 'Изменить тему',
             icon: 'i-heroicons-sun-20-solid',
             click: () => { darkClick(isDark) }
+        }, {
+            label: 'Изменить пароль',
+            icon: 'i-heroicons-finger-print',
+            click: () => { console.log('Create call change pass here') },
+            disabled: logged,
         }
 
     ]];

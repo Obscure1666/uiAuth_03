@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 
-
 interface UserList {
     id: number
     username: string
@@ -26,6 +25,10 @@ export const useUserStore = defineStore('user', {
             const { data: userList }:any = await useFetch(`/api/user`);
             return userList as UserList[];
         },
+        async getUserByID(id:number) {
+            const { data: userList }:any = await useFetch(`/api/user/${id}`);
+            return userList as UserList[];
+        },
         async createNewUser(username: string, password: string, email: string, date_joined: Date, last_login: Date, first_name: string, last_name: string, is_active: number, image: string, accessToken: string, role: string, role_id: number) {
             await $fetch(`/api/user`, {
                 method: 'POST',
@@ -38,7 +41,17 @@ export const useUserStore = defineStore('user', {
             .catch((e) => {
                 console.log(e.data.message);
             });
-        },        
+        },
+        async changePassword(id:number, oldPass:string, newPass:string) {
+            await $fetch(`/api/user/cngpass/query?id=${id}&oldpass=${oldPass}&newpass=${newPass}`, {
+                method: "PUT"
+            })
+            .then(async () => {                
+                // console.log('Updated.');
+            }).catch((e) => {
+                console.log(e.data.message);
+            })
+        },
     },
 });
 

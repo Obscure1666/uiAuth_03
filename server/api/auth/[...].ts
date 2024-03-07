@@ -24,11 +24,13 @@ export default NuxtAuthHandler({
         token.jwt = user ? (user as any).accessToken || '' : '';
         token.id = user ? user.id || '' : '';
         token.role = user ? (user as any).role || '' : '';
+        token.username = user ? (user as any).username || '' : '';
       }
       return Promise.resolve(token);
     },
     session: async ({session, token}) => {
       (session as any).role = token.role;
+      (session as any).username = token.username;
       (session as any).uid = token.id;
       return Promise.resolve(session);
     },

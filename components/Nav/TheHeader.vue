@@ -69,15 +69,18 @@
             </div>
         </div>
     </header>
-    
+    <ChangePass ref="changePass"/>
 </template>
 
 <script setup lang="ts">
     const { status, data, signIn, signOut } = useAuth();
     
-    const loggedName = data.value?.user?.email;    
+    const loggedName = data.value?.user?.email;
+    const loggedLogin = data.value;
+
     const isAdmin = (computed(() => status.value == 'authenticated'? (data.value.role == "admin" ? false : true) : true)).value;
     const logged = computed(() => status.value == 'authenticated'? false : true).value
+    const changePass = ref();
 
     const colorMode = useColorMode()
     const isDark = computed({
@@ -128,7 +131,7 @@
         }, {
             label: 'Изменить пароль',
             icon: 'i-heroicons-finger-print',
-            click: () => { console.log('Create call change pass here') },
+            click: () => { changePass.value.openChangePassForm(loggedLogin) },
             disabled: logged,
         }
 

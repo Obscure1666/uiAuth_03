@@ -3,7 +3,7 @@
         <UModal v-model="isOpen">
             <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
                 <template #header>
-                    {{ selectedUser.id ? 'Edit Profile' : 'New Record' }}
+                    {{ selectedUser.id ? 'Edit Profile (temporary unavialable)' : 'New Record' }}
                 </template>
 
                 <UForm class="space-y-2" :state="state" @submit="userFormSubmit(selectedUser)">

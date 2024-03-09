@@ -3,6 +3,7 @@
   <div>
     <NuxtPage />
   </div>
+  <UNotifications />
   <NavTheFooter />
 </template>
 

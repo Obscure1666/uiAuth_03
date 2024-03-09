@@ -16,6 +16,19 @@ export default defineNuxtConfig({
     }, */
   },
   devtools: { enabled: false },
+  app: {
+    head: {
+      title: 'My App',
+      titleTemplate: '%s | Template for GitHub/@Obscure1666'
+    },    
+  },
+  $development: {
+    app: {
+      head: {
+        title: 'DEV'
+      },
+    },
+  },
   nitro: {
     esbuild: {
       options: {

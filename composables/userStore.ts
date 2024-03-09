@@ -29,6 +29,10 @@ export const useUserStore = defineStore('user', {
             const { data: userList }:any = await useFetch(`/api/user/${id}`);
             return userList as UserList[];
         },
+        async getAdminCount() {
+            const { data } = await useFetch(`/api/user/cntadmin`);
+            return data;
+        },
         async createNewUser(username: string, password: string, email: string, date_joined: Date, last_login: Date, first_name: string, last_name: string, is_active: number, image: string, accessToken: string, role: string, role_id: number) {
             await $fetch(`/api/user`, {
                 method: 'POST',
@@ -48,6 +52,16 @@ export const useUserStore = defineStore('user', {
             })
             .then(async () => {                
                 // console.log('Updated.');
+            }).catch((e) => {
+                console.log(e.data.message);
+            })
+        },
+        async remove(id: string) {
+            await $fetch(`/api/user/${id}`, {
+                method: 'DELETE'
+            }).then(async () => {
+                await this.getAllUsers();
+                console.log('Deleted');
             }).catch((e) => {
                 console.log(e.data.message);
             })

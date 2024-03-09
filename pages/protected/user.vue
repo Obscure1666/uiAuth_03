@@ -18,14 +18,30 @@
             </template>
         </UTable>
     </div>
+    <!-- Confirm delete row modal window -->
+    <div>
+        <UModal v-model="deleteUserIsOpen">
+            <UAlert
+                title="Подтверждение удаления пользователя:" 
+                :description="confirmRow.username" 
+                :actions="[
+                    { variant: 'solid', color: 'primary', label: 'Удалить запись?', click: () => { deleteRow(confirmRow) } }, 
+                    { variant: 'outline', color: 'primary', label: 'Отмена', click: () => { deleteUserIsOpen = false } }
+                ]"
+            >
+                               
+            </UAlert>
+        </UModal>
+    </div>
 </template>
 
 <script setup lang="ts">
-    
+    const toast = useToast();
     const userStore = useUserStore();
     const userList = await userStore.getAllUsers();
     
     const userForm = ref();
+    const deleteUserIsOpen = ref(false);
 
     const columns = [
         { key: 'id', label: 'ID' },        
@@ -54,7 +70,26 @@
             icon: 'i-heroicons-arrow-right-circle-20-solid'
         }], [{
             label: 'Delete',
-            icon: 'i-heroicons-trash-20-solid'
+            icon: 'i-heroicons-trash-20-solid',
+            click: () => { openConfirmDeleteModal(row) },
         }]
-    ]
+    ];
+
+    const confirmRow = ref();
+    const openConfirmDeleteModal = (item:any) => {
+        confirmRow.value = item;
+        deleteUserIsOpen.value = true;
+    };
+    
+    async function deleteRow(deleteItem) {
+        const admin = await userStore.getAdminCount();
+        
+        if (admin.value > 1) {
+            userStore.remove(deleteItem.id);        
+        } else {
+            console.log('Can`t delete last record with admin roles!')
+        }
+        deleteUserIsOpen.value = false;
+        toast.add({ title: 'Record Deleted!' });        
+    };
 </script>

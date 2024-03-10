@@ -66,7 +66,7 @@ export default NuxtAuthHandler({
             statusMessage: 'Invalid Credentials'
           })
         } else {
-          if (credentials.is_active = true) {
+          if (authUser.is_active) {
             await AppDataSource.createQueryBuilder().update(userAuth).set({ last_login: Date() }).where("username = :username", { username: credentials.username }).execute();          
             return authUser          
           } else {

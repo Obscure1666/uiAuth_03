@@ -56,6 +56,17 @@ export const useUserStore = defineStore('user', {
                 console.log(e.data.message);
             })
         },
+        async changeActive(id:number) {
+            await $fetch(`/api/user/setactive/${id}`, {
+                method: "PUT"
+            })
+            .then(async () => {   
+                await this.getAllUsers();             
+                // console.log('Updated.');
+            }).catch((e) => {
+                console.log(e.data.message);
+            })
+        },
         async remove(id: string) {
             await $fetch(`/api/user/${id}`, {
                 method: 'DELETE'

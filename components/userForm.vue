@@ -47,6 +47,7 @@
 </template>
 
 <script setup lang="ts">
+    const toast = useToast();
     const userStore = useUserStore();
     const isOpen = ref(false);
     const selectedUser = ref({});
@@ -78,7 +79,7 @@
     async function userFormSubmit(user:any) {
         if (user.id) {
             // update record
-            alert('Insert here save Profile changing')
+            toast.add({title: 'TO-DO', description: 'Insert here save Profile changing'})
         } else {
             // create record
             await userStore.createNewUser(user.username, user.password, user.email, Date(), Date(), user.first_name, user.last_name, 1, user.image, user.accessToken, user.role, 1);

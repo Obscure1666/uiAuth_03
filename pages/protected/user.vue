@@ -37,6 +37,7 @@
 
 <script setup lang="ts">
     const toast = useToast();
+    const { data } = useAuth();
     const userStore = useUserStore();
     const userList = await userStore.getAllUsers();
     
@@ -61,7 +62,8 @@
             click: () => { userForm.value.openUserForm(row) },
         }, {
             label: 'Active/Inactive',
-            icon: 'i-heroicons-document-duplicate-20-solid'
+            icon: 'i-heroicons-document-duplicate-20-solid',
+            click: () => { changeActive(row) },
         }], [{
             label: 'Archive',
             icon: 'i-heroicons-archive-box-20-solid'
@@ -74,6 +76,15 @@
             click: () => { openConfirmDeleteModal(row) },
         }]
     ];
+
+    async function changeActive(item:any) {
+        if (data.value?.uid !== item.id && data.value?.role == 'admin') {
+            userStore.changeActive(item.id);
+        } else {
+            toast.add({ title: 'Error!', description: 'Admin can`t set inactive itself !' })
+        }
+        
+    }
 
     const confirmRow = ref();
     const openConfirmDeleteModal = (item:any) => {

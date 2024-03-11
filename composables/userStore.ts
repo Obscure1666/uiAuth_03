@@ -67,6 +67,18 @@ export const useUserStore = defineStore('user', {
                 console.log(e.data.message);
             })
         },
+        async updateUserProfile(id:number, first_name:string, last_name:string,email:string,image:string) {
+            await $fetch(`/api/user/${id}`, {
+                method: 'PUT',
+                body: { id, first_name, last_name, email, image },
+            })
+            .then(async () => {
+                await this.getAllUsers();
+                console.log('Updated');
+            }).catch((e) => {
+                console.log(e.data.message);
+            })        
+        },
         async remove(id: string) {
             await $fetch(`/api/user/${id}`, {
                 method: 'DELETE'

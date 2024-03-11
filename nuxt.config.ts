@@ -5,6 +5,10 @@ export default defineNuxtConfig({
     '@sidebase/nuxt-auth',
     '@pinia/nuxt',
   ],
+  routeRules: {
+    // Add cors headers on API routes
+    '/api/**': { cors: true },
+  },
   auth: {
     globalAppMiddleware: true,
     /* provider: {

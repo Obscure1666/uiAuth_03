@@ -57,19 +57,21 @@
 
     const items = (row:any) => [
         [{
-            label: 'Edit Profile',
+            label: 'Edit User Profile',
             icon: 'i-heroicons-pencil-square-20-solid',
             click: () => { userForm.value.openUserForm(row) },
         }, {
-            label: 'Active/Inactive',
+            label: 'Set Active/Inactive',
             icon: 'i-heroicons-document-duplicate-20-solid',
             click: () => { changeActive(row) },
         }], [{
             label: 'Archive',
-            icon: 'i-heroicons-archive-box-20-solid'
+            icon: 'i-heroicons-archive-box-20-solid',
+            disabled: true
         }, {
             label: 'Move',
-            icon: 'i-heroicons-arrow-right-circle-20-solid'
+            icon: 'i-heroicons-arrow-right-circle-20-solid',
+            disabled: true
         }], [{
             label: 'Delete',
             icon: 'i-heroicons-trash-20-solid',
@@ -92,7 +94,7 @@
         deleteUserIsOpen.value = true;
     };
     
-    async function deleteRow(deleteItem) {
+    async function deleteRow(deleteItem:any) {
         const admin = await userStore.getAdminCount();
         
         if (admin.value > 1) {

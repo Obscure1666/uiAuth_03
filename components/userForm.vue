@@ -13,7 +13,7 @@
                     <UFormGroup label="Password">
                         <UInput :disabled :ui="{ icon: { trailing: { pointer: '' } } }" type="password" v-model="selectedUser.password">
                                 <template #trailing>
-                                    <UButton color="gray" :padded="false" icon="i-heroicons-sparkles" />
+                                    <UButton @click="passGenerator()" color="gray" :padded="false" icon="i-heroicons-sparkles" />
                                 </template>
                         </UInput>                        
                     </UFormGroup>
@@ -59,6 +59,11 @@
         email: undefined,
         password: undefined
     });
+
+    function passGenerator() {
+        let strings = window.crypto.getRandomValues(new BigUint64Array(2));
+        console.log(strings[0].toString(36) + strings[1].toString(36).toUpperCase());
+    };
     
     async function openUserForm(item:any) {
         selectedUser.value = {};
@@ -78,8 +83,9 @@
 
     async function userFormSubmit(user:any) {
         if (user.id) {
-            // update record
-            toast.add({title: 'TO-DO', description: 'Insert here save Profile changing'})
+            // update record            
+            await userStore.updateUserProfile(user.id, user.first_name, user.last_name, user.email, user.image);
+            toast.add({title: 'Record Updated!', description: 'Save Change for User: ' + user.username});
         } else {
             // create record
             await userStore.createNewUser(user.username, user.password, user.email, Date(), Date(), user.first_name, user.last_name, 1, user.image, user.accessToken, user.role, 1);

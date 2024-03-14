@@ -2,7 +2,7 @@
     <div>
         <UButton @click="userForm.openUserForm()">Add New</UButton>        
     </div>
-    <UserForm ref="userForm" />
+    <AuthUserForm ref="userForm" />
     <div>
         <UTable
             :columns="columns"    

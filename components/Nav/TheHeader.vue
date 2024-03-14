@@ -69,7 +69,7 @@
             </div>
         </div>
     </header>
-    <ChangePass ref="changePass"/>
+    <AuthChangePass ref="changePass"/>
 </template>
 
 <script setup lang="ts">
